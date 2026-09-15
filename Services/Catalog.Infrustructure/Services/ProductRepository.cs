@@ -1,5 +1,7 @@
 ﻿using Catalog.Core.Entities;
 using Catalog.Core.Repositories;
+using Catalog.Infrustructure.Data;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +10,16 @@ using System.Threading.Tasks;
 
 namespace Catalog.Infrustructure.Services
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository(ICatalogContext catalogContext) : IProductRepository
     {
-        public Task<bool> DeleteProductAsync(string Id)
+        public async Task<IEnumerable<Product>> GetProductsAsync()
         {
-            throw new NotImplementedException();
+            return await catalogContext.Products.Find(t=>true).ToListAsync();
         }
 
-        public Task<bool> DeleteProductAsync(Product product)
+        public async Task<Product> GetProductByIdAsync(string id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Product> GetProductByIdAsync(string id)
-        {
-            throw new NotImplementedException();
+            return await catalogContext.Products.Find(t=>t.Id == id).FirstOrDefaultAsync();
         }
 
         public Task<Product> GetProductByNameAsync(string name)
@@ -30,7 +27,7 @@ namespace Catalog.Infrustructure.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Product>> GetProductsAsync()
+        public Task<IEnumerable<Product>> GetProductsByNameAsync(string name)
         {
             throw new NotImplementedException();
         }
@@ -41,11 +38,6 @@ namespace Catalog.Infrustructure.Services
         }
 
         public Task<IEnumerable<Product>> GetProductsByBrandIdAsync(string brandId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Product>> GetProductsByNameAsync(string name)
         {
             throw new NotImplementedException();
         }
@@ -61,6 +53,16 @@ namespace Catalog.Infrustructure.Services
         }
 
         public Task<bool> UpdateProductAsync(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteProductAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteProductAsync(Product product)
         {
             throw new NotImplementedException();
         }

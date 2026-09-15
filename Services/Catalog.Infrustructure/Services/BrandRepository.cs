@@ -1,5 +1,6 @@
 ﻿using Catalog.Core.Entities;
 using Catalog.Core.Repositories;
+using Catalog.Infrustructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Catalog.Infrustructure.Services
 {
-    public class BrandRepository : IBrandRepository
+    public class BrandRepository(ICatalogContext CatalogContex) : IBrandRepository
     {
         public Task<IEnumerable<ProductBrand>> GetProductBrands()
         {
