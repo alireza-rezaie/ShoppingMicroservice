@@ -1,6 +1,7 @@
 ﻿using Catalog.Core.Entities;
 using Catalog.Core.Repositories;
 using Catalog.Infrustructure.Data;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Catalog.Infrustructure.Services
 {
     public class BrandRepository(ICatalogContext CatalogContex) : IBrandRepository
     {
-        public Task<IEnumerable<ProductBrand>> GetProductBrands()
+        public async Task<IEnumerable<ProductBrand>> GetProductBrands()
         {
-            throw new NotImplementedException();
+            return await CatalogContex.Brands.Find(t=>true).ToListAsync();
         }
     }
 }

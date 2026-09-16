@@ -1,5 +1,7 @@
 ﻿using Catalog.Core.Entities;
 using Catalog.Core.Repositories;
+using Catalog.Infrustructure.Data;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Catalog.Infrustructure.Services
 {
-    public class TypeRepository : ITypeRepository
+    public class TypeRepository(ICatalogContext catalogContext) : ITypeRepository
     {
-        public Task<IEnumerable<ProductType>> GetProductTypes()
+        public async Task<IEnumerable<ProductType>> GetProductTypes()
         {
-            throw new NotImplementedException();
+            return await catalogContext.Types.Find(t => true).ToListAsync();
         }
     }
 }

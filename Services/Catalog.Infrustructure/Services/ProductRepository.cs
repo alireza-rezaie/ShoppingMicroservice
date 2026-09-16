@@ -22,49 +22,51 @@ namespace Catalog.Infrustructure.Services
             return await catalogContext.Products.Find(t=>t.Id == id).FirstOrDefaultAsync();
         }
 
-        public Task<Product> GetProductByNameAsync(string name)
+        public async Task<Product> GetProductByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            return await catalogContext.Products.Find(x => x.Name == name).FirstOrDefaultAsync();
         }
 
-        public Task<IEnumerable<Product>> GetProductsByNameAsync(string name)
+        public async Task<IEnumerable<Product>> GetProductsByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            return await catalogContext.Products.Find(x=>x.Brands.Name == name).ToListAsync();
         }
 
-        public Task<IEnumerable<Product>> GetProductsByBrandAsync(string brand)
+        public async Task<IEnumerable<Product>> GetProductsByBrandAsync(string brandName)
         {
-            throw new NotImplementedException();
+            return await catalogContext.Products.Find(x=>x.Brands.Name == brandName).ToListAsync();
         }
 
-        public Task<IEnumerable<Product>> GetProductsByBrandIdAsync(string brandId)
+        public async Task<IEnumerable<Product>> GetProductsByBrandIdAsync(string brandId)
         {
-            throw new NotImplementedException();
+            return await catalogContext.Products.Find(x => x.Brands.Id == brandId).ToListAsync();
         }
 
-        public Task<IEnumerable<Product>> GetProductsByTypeAsync(string type)
+        public async Task<IEnumerable<Product>> GetProductsByTypeAsync(string type)
         {
-            throw new NotImplementedException();
+            return await catalogContext.Products.Find(x=> x.Types.Name == type).ToListAsync();
         }
 
-        public Task<IEnumerable<Product>> GetProductsByTypeIdAsync(string typeId)
+        public async Task<IEnumerable<Product>> GetProductsByTypeIdAsync(string typeId)
         {
-            throw new NotImplementedException();
+            return await catalogContext.Products.Find(x => x.Types.Id == typeId).ToListAsync();
         }
 
-        public Task<bool> UpdateProductAsync(Product product)
+        public async Task<bool> UpdateProductAsync(Product product)
         {
-            throw new NotImplementedException();
+            var result = await catalogContext.Products.ReplaceOneAsync(x => x.Id == product.Id,product);
+            return result.IsAcknowledged && result.ModifiedCount > 0;
         }
 
-        public Task<bool> DeleteProductAsync(string id)
+        public async Task<bool> DeleteProductAsync(string id)
         {
-            throw new NotImplementedException();
+            var result = await catalogContext.Products.DeleteOneAsync(x => x.Id == id);
+            return result.IsAcknowledged && result.DeletedCount > 0;
         }
 
-        public Task<bool> DeleteProductAsync(Product product)
+        public async Task<bool> DeleteProductAsync(Product product)
         {
-            throw new NotImplementedException();
+            return await DeleteProductAsync(product.Id);
         }
     }
 }
