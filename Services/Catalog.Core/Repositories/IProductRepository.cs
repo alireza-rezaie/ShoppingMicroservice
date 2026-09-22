@@ -9,6 +9,7 @@ namespace Catalog.Core.Repositories
 {
     public interface IProductRepository
     {
+        Task<Product> CreateProduct(Product product);
         Task<IEnumerable<Product>> GetProductsAsync();
         Task<Product> GetProductByIdAsync(string id);
         Task<Product> GetProductByNameAsync(string name);

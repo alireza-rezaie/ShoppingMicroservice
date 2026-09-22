@@ -12,6 +12,13 @@ namespace Catalog.Infrustructure.Services
 {
     public class ProductRepository(ICatalogContext catalogContext) : IProductRepository
     {
+        public async Task<Product> CreateProduct(Product product)
+        {
+            await catalogContext.Products.InsertOneAsync(product);
+            return product;
+            
+        }
+
         public async Task<IEnumerable<Product>> GetProductsAsync()
         {
             return await catalogContext.Products.Find(t=>true).ToListAsync();
@@ -68,5 +75,6 @@ namespace Catalog.Infrustructure.Services
         {
             return await DeleteProductAsync(product.Id);
         }
+
     }
 }
