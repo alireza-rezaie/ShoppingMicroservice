@@ -1,0 +1,34 @@
+services:
+  #Catalogdb
+  catalogdb: 
+    container_name: catalogdb
+    restart: always
+    ports:
+    - "27017:27017"
+    volumes:
+    - "mongo_data:/data/db"
+  #Catalog.Api
+  catalog.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      # __ instead of : because of the way the environment variables are parsed in the .NET Core configuration system
+      # DatabaseSettings__ConnectionString means DatabaseSettings:ConnectionString in the appsettings.json file
+      - "DatabaseSettings__ConnectionString=mongodb://catalogdb:27017"
+      - "DatabaseSettings__DatabaseName=CatalogDb"
+      - "DatabaseSettings__CollectionName=Products"
+      - "DatabaseSettings__BrandsCollection=Brands"
+      - "DatabaseSettings__TypesCollection=Types"
+      - "ElasticConfiguration__Uri=http://elasticsearch:9200"
+      # - ASPNETCORE_HTTP_PORTS=8080
+      # - ASPNETCORE_HTTPS_PORTS=8081
+    depends_on:
+        - catalogdb
+    ports:
+      - "9000:8080"
+      - "8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

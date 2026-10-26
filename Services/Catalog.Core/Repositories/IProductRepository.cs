@@ -1,4 +1,5 @@
-﻿using Catalog.Core.Entities;
+﻿using Catalog.Core.CatalogSpecs;
+using Catalog.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Catalog.Core.Repositories
     public interface IProductRepository
     {
         Task<Product> CreateProduct(Product product);
-        Task<IEnumerable<Product>> GetProductsAsync();
+        Task<Pagination<Product>> GetProductsAsync(CatalogSpecParams catalogSpecParams);
         Task<Product> GetProductByIdAsync(string id);
         Task<Product> GetProductByNameAsync(string name);
         Task<IEnumerable<Product>> GetProductsByNameAsync(string name);
