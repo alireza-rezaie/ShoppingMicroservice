@@ -7,10 +7,10 @@ services:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
-      dockerfile: Services/Catalog.Api/Dockerfile
+      dockerfile: Services/Catalog/Catalog.Api/Dockerfile
 
   #Basketdb
-  Basketdb: 
+  basketdb: 
     image: redis
 
   #Basket.Api

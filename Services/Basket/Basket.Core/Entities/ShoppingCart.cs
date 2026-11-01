@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Basket.Core.Entities
 {
-    public class ShoppingCart(string userName,string userId)
+    public class ShoppingCart(string userName)
     {
         public Guid Guid { get; set; } = Guid.NewGuid();
         public string UserName { get; set; } = userName;

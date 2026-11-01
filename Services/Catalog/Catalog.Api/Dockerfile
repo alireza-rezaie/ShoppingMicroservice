@@ -12,13 +12,13 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Services/Catalog.Api/Catalog.Api.csproj", "Services/Catalog.Api/"]
-COPY ["Services/Catalog.Infrustructure/Catalog.Infrustructure.csproj", "Services/Catalog.Infrustructure/"]
-COPY ["Services/Catalog.Application/Catalog.Application.csproj", "Services/Catalog.Application/"]
-COPY ["Services/Catalog.Core/Catalog.Core.csproj", "Services/Catalog.Core/"]
-RUN dotnet restore "./Services/Catalog.Api/Catalog.Api.csproj"
+COPY ["Services/Catalog/Catalog.Api/Catalog.Api.csproj", "Services/Catalog/Catalog.Api/"]
+COPY ["Services/Catalog/Catalog.Infrustructure/Catalog.Infrustructure.csproj", "Services/Catalog/Catalog.Infrustructure/"]
+COPY ["Services/Catalog/Catalog.Application/Catalog.Application.csproj", "Services/Catalog/Catalog.Application/"]
+COPY ["Services/Catalog/Catalog.Core/Catalog.Core.csproj", "Services/Catalog/Catalog.Core/"]
+RUN dotnet restore "./Services/Catalog/Catalog.Api/Catalog.Api.csproj"
 COPY . .
-WORKDIR "/src/Services/Catalog.Api"
+WORKDIR "/src/Services/Catalog/Catalog.Api"
 RUN dotnet build "./Catalog.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

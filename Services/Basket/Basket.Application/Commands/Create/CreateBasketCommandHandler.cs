@@ -22,13 +22,13 @@ namespace Basket.Application.Commands.Create
         {
             try
             {
-                var shoppingCart = mapper.Map<ShoppingCart>(request);
+                ShoppingCart shoppingCart = mapper.Map<ShoppingCart>(request);
                 await basketRepository.UpdateBasketAsync(shoppingCart);
                 return mapper.Map<ShoppingCartResponse>(shoppingCart);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("در هنگام ایجاد یا به‌روزرسانی سبد خرید خطایی رخ داده است.");
+                throw new Exception("در هنگام ایجاد یا به‌روزرسانی سبد خرید خطایی رخ داده است." + ex);
             }
         }
     }

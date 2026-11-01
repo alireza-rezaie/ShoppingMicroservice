@@ -1,5 +1,5 @@
 services:
-  #Catalogdb
+  #Catalogdb 27017
   catalogdb: 
     container_name: catalogdb
     restart: always
@@ -7,7 +7,7 @@ services:
     - "27017:27017"
     volumes:
     - "mongo_data:/data/db"
-  #Catalog.Api
+  #Catalog.Api 9000
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -41,11 +41,11 @@ services:
     - "6379:6379"
 
 
-  #Basket.Api
+  #Basket.Api 9001
   basket.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionString__Redis=basketdb:6379"
+      - "ConnectionStrings__Redis=basketdb:6379"
       - ASPNETCORE_HTTP_PORTS=8080
     depends_on:
       - basketdb
