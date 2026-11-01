@@ -20,7 +20,7 @@ namespace Basket.Application.Responses
         }
         public Guid Guid { get; set; } 
         public string? UserName { get; set; } 
-        public List<ShoppingCartItem> Items { get; set; } = new();
+        public List<ShoppingCartItemResponse> Items { get; set; } = new();
         public decimal CalculateOrginalPrice()
         {
             return Items.Sum(x => x.Quantity * x.Price);
