@@ -32,3 +32,28 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  #Basketdb 6379:6379
+  basketdb:
+    container_name: basketdb
+    restart: always
+    ports:
+    - "6379:6379"
+
+
+  #Basket.Api
+  basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionString__Redis=basketdb:6379"
+      - ASPNETCORE_HTTP_PORTS=8080
+    depends_on:
+      - basketdb
+    ports:
+      - "9001:8080"
+
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

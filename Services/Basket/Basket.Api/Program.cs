@@ -36,7 +36,7 @@ builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 //Redis Configuration
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = builder.Configuration.GetConnectionString("RedisSettings"); ;
+    options.Configuration = builder.Configuration.GetConnectionString("Redis"); ;
 });
 //Add Swagger
 builder.Services.AddEndpointsApiExplorer();
