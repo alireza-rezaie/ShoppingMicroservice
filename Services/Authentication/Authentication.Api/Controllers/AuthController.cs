@@ -78,7 +78,9 @@ public sealed class AuthController(
     {
         var hash = HashToken(request.RefreshToken);
         var stored = await db.RefreshTokens.FirstOrDefaultAsync(x => x.TokenHash == hash);
-        if (stored is not null && stored.RevokedAtUtc is null)
+        if (stored is null) return NoContent();
+        if (stored.UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)) return Forbid();
+        if (stored.RevokedAtUtc is null)
         {
             stored.RevokedAtUtc = DateTime.UtcNow;
             await db.SaveChangesAsync();
@@ -98,7 +100,7 @@ public sealed class AuthController(
             new(JwtRegisteredClaimNames.Sub, user.Id),
             new(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
             new(ClaimTypes.NameIdentifier, user.Id),
-            new(ClaimTypes.Name, user.UserName ?? user.Email ?? user.Id)
+            new(ClaimTypes.Name, user.Email ?? user.UserName ?? user.Id)
         };
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
