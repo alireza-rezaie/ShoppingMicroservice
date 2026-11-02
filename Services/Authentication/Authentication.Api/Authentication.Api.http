@@ -1,0 +1,39 @@
+@baseUrl = http://localhost:9002
+@email = customer@example.com
+@password = StrongPass123
+
+### Register
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "fullName": "Sample Customer"
+}
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### Refresh
+POST {{baseUrl}}/api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "<refresh-token-from-login>"
+}
+
+### Logout
+POST {{baseUrl}}/api/auth/logout
+Authorization: Bearer <access-token-from-login>
+Content-Type: application/json
+
+{
+  "refreshToken": "<refresh-token-from-login>"
+}
