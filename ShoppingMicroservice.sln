@@ -17,6 +17,10 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{3B3311F7-40E5-4C13-A7DA-344F3E15A734}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{A14D51B4-0E43-4C1B-A1B4-6C90D71E12B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Api", "Services\Authentication\Authentication.Api\Authentication.Api.csproj", "{F3A2D3C7-7A4B-4D62-9F22-1A63D8A11C42}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{1A9ACF1C-71EB-480B-8AB8-FC291CD255B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.Core", "Services\Basket\Basket.Core\Basket.Core.csproj", "{6E7397FD-B213-4A3B-885C-01AEE684918F}"
