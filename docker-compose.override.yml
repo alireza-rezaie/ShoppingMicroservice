@@ -26,6 +26,32 @@ services:
       - "9000:8080"
       - "8081"
 
+  authdb:
+    container_name: authdb
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
+      - MSSQL_SA_PASSWORD=LocalDev_StrongPass!2026
+    ports:
+      - "1433:1433"
+    volumes:
+      - auth_sql_data:/var/opt/mssql
+
+  authentication.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__AuthDb=Server=authdb,1433;Database=ShoppingAuthDb;User Id=sa;Password=LocalDev_StrongPass!2026;Encrypt=True;TrustServerCertificate=True
+      - Jwt__Issuer=ShoppingMicroservice.Authentication
+      - Jwt__Audience=ShoppingMicroservice
+      - Jwt__Key=local-development-only-change-this-key-123456789
+      - Jwt__AccessTokenMinutes=15
+      - Jwt__RefreshTokenDays=7
+    depends_on:
+      - authdb
+    ports:
+      - "9002:8080"
+
   basketdb:
     container_name: basketdb
     restart: always
@@ -44,18 +70,3 @@ services:
       - basketdb
     ports:
       - "9001:8080"
-
-  authentication.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ConnectionStrings__AuthDb=Data Source=/app/data/auth.db
-      - Jwt__Issuer=ShoppingMicroservice.Authentication
-      - Jwt__Audience=ShoppingMicroservice
-      - Jwt__Key=local-development-only-change-this-key-123456789
-      - Jwt__AccessTokenMinutes=15
-      - Jwt__RefreshTokenDays=7
-    ports:
-      - "9002:8080"
-    volumes:
-      - auth_data:/app/data
