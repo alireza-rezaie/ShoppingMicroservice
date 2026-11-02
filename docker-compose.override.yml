@@ -1,64 +1,50 @@
 services:
-  #Catalogdb 27017
-  catalogdb: 
+  catalogdb:
     container_name: catalogdb
     restart: always
     ports:
-    - "27017:27017"
+      - "27017:27017"
     volumes:
-    - "mongo_data:/data/db"
-  #Catalog.Api 9000
+      - "mongo_data:/data/db"
+
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      # __ instead of : because of the way the environment variables are parsed in the .NET Core configuration system
-      # DatabaseSettings__ConnectionString means DatabaseSettings:ConnectionString in the appsettings.json file
-      - "DatabaseSettings__ConnectionString=mongodb://catalogdb:27017"
-      - "DatabaseSettings__DatabaseName=CatalogDb"
-      - "DatabaseSettings__CollectionName=Products"
-      - "DatabaseSettings__BrandsCollection=Brands"
-      - "DatabaseSettings__TypesCollection=Types"
-      - "ElasticConfiguration__Uri=http://elasticsearch:9200"
-      # - ASPNETCORE_HTTP_PORTS=8080
-      # - ASPNETCORE_HTTPS_PORTS=8081
+      - DatabaseSettings__ConnectionString=mongodb://catalogdb:27017
+      - DatabaseSettings__DatabaseName=CatalogDb
+      - DatabaseSettings__CollectionName=Products
+      - DatabaseSettings__BrandsCollection=Brands
+      - DatabaseSettings__TypesCollection=Types
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
+      - Jwt__Issuer=ShoppingMicroservice.Authentication
+      - Jwt__Audience=ShoppingMicroservice
+      - Jwt__Key=local-development-only-change-this-key-123456789
     depends_on:
-        - catalogdb
+      - catalogdb
     ports:
       - "9000:8080"
       - "8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
-  #Basketdb 6379:6379
   basketdb:
     container_name: basketdb
     restart: always
     ports:
-    - "6379:6379"
+      - "6379:6379"
 
-
-  #Basket.Api 9001
   basket.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings__Redis=basketdb:6379"\n      - Jwt__Issuer=ShoppingMicroservice.Authentication\n      - Jwt__Audience=ShoppingMicroservice\n      - Jwt__Key=local-development-only-change-this-key-123456789
+      - ConnectionStrings__Redis=basketdb:6379
       - ASPNETCORE_HTTP_PORTS=8080
+      - Jwt__Issuer=ShoppingMicroservice.Authentication
+      - Jwt__Audience=ShoppingMicroservice
+      - Jwt__Key=local-development-only-change-this-key-123456789
     depends_on:
       - basketdb
     ports:
       - "9001:8080"
 
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-
-  #Authentication API 9002
   authentication.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
