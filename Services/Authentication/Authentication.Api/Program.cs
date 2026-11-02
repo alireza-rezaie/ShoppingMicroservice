@@ -13,7 +13,7 @@ if (Encoding.UTF8.GetByteCount(signingKey) < 32)
     throw new InvalidOperationException("Jwt:Key must contain at least 32 bytes.");
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("AuthDb") ?? "Data Source=auth.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AuthDb") ?? throw new InvalidOperationException("ConnectionStrings:AuthDb must be configured."), sql => sql.EnableRetryOnFailure()));
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
 {
     options.User.RequireUniqueEmail = true;
@@ -50,7 +50,19 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-    await db.Database.EnsureCreatedAsync();
+    var initialized = false;
+    for (var attempt = 1; attempt <= 30 && !initialized; attempt++)
+    {
+        try
+        {
+            await db.Database.EnsureCreatedAsync();
+            initialized = true;
+        }
+        catch (Microsoft.Data.SqlClient.SqlException) when (attempt < 30)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(2));
+        }
+    }
 }
 app.UseSwagger();
 app.UseSwaggerUI();
