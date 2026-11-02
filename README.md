@@ -4,7 +4,7 @@ A .NET 9 microservices sample containing Catalog, Basket, Discount, and Authenti
 
 ## Authentication
 
-The Authentication API uses ASP.NET Core Identity, SQLite, JWT access tokens, and rotating refresh tokens.
+The Authentication API uses ASP.NET Core Identity, SQL Server, JWT access tokens, and rotating refresh tokens. Its SQL Server database is persisted in the Docker named volume `auth_sql_data`.
 
 Run the solution with Docker Compose:
 
@@ -13,7 +13,8 @@ docker compose up --build
 ```
 
 Authentication API: `http://localhost:9002`  
-Swagger UI: `http://localhost:9002/swagger`
+Swagger UI: `http://localhost:9002/swagger`  
+Authentication SQL Server: `localhost,1433` (database: `ShoppingAuthDb`)
 
 ### Endpoints
 
@@ -44,12 +45,21 @@ Basket endpoints require authentication and only allow the signed-in email to ac
 
 ### Local development and secrets
 
-The checked-in key in `appsettings.Development.json` and `docker-compose.override.yml` is for local development only. Before deployment, remove/override it and provide a cryptographically random `Jwt__Key` of at least 32 bytes through a secret manager or environment variable. Configure the same issuer, audience, and signing key in Authentication, Catalog, and Basket.
+The credentials in `docker-compose.override.yml` and the checked-in JWT key are for local development only. Replace them with strong secrets before deployment. Provide the SQL Server connection string and JWT signing key through a secret manager or environment variables in deployed environments. Configure the same JWT issuer, audience, and signing key in Authentication, Catalog, and Basket.
 
-The SQLite database is stored in the Docker named volume `auth_data`.
+### Database scope
 
-### Notes
+- Authentication: SQL Server
+- Catalog: MongoDB (unchanged)
+- Basket: Redis (unchanged)
 
-- Customer is assigned automatically at registration.
-- Admin role authorization can be added to product-management actions after provisioning trusted admin accounts.
-- This branch has not been built or integration-tested in this environment; run `dotnet build ShoppingMicroservice.sln` and `docker compose up --build` locally before merging.
+The Authentication API currently creates its initial schema with EF Core `EnsureCreated`. For production schema evolution, add EF Core migrations and use `Database.MigrateAsync()`.
+
+### Verification
+
+Build and Docker execution have not been run in this authoring environment. Verify locally with:
+
+```bash
+dotnet build ShoppingMicroservice.sln
+docker compose up --build
+```

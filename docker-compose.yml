@@ -1,26 +1,25 @@
 services:
-  #Catalogdb
-  catalogdb: 
+  catalogdb:
     image: mongo
-  #Catalog.Api
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.Api/Dockerfile
 
-  #Authentication API
+  authdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+
   authentication.api:
     image: ${DOCKER_REGISTRY-}authenticationapi
     build:
       context: .
       dockerfile: Services/Authentication/Authentication.Api/Dockerfile
+    depends_on:
+      - authdb
 
-  #Basketdb
-  basketdb: 
+  basketdb:
     image: redis
-
-  #Basket.Api
   basket.api:
     image: ${DOCKER_REGISTRY-}basketapi
     build:
@@ -28,5 +27,5 @@ services:
       dockerfile: Services/Basket/Basket.Api/Dockerfile
 
 volumes:
-  auth_data:
+  auth_sql_data:
   mongo_data:
