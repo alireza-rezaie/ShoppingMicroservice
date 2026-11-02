@@ -9,6 +9,13 @@ services:
       context: .
       dockerfile: Services/Catalog/Catalog.Api/Dockerfile
 
+  #Authentication API
+  authentication.api:
+    image: ${DOCKER_REGISTRY-}authenticationapi
+    build:
+      context: .
+      dockerfile: Services/Authentication/Authentication.Api/Dockerfile
+
   #Basketdb
   basketdb: 
     image: redis
