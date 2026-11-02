@@ -3,7 +3,7 @@
 @password = StrongPass123
 
 ### Register
-POST {{baseUrl}}/api/auth/register
+POST {{baseUrl}}/api/v1/Auth/Register
 Content-Type: application/json
 
 {
@@ -13,7 +13,7 @@ Content-Type: application/json
 }
 
 ### Login
-POST {{baseUrl}}/api/auth/login
+POST {{baseUrl}}/api/v1/Auth/Login
 Content-Type: application/json
 
 {
@@ -22,7 +22,7 @@ Content-Type: application/json
 }
 
 ### Refresh
-POST {{baseUrl}}/api/auth/refresh
+POST {{baseUrl}}/api/v1/Auth/Refresh
 Content-Type: application/json
 
 {
@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ### Logout
-POST {{baseUrl}}/api/auth/logout
+POST {{baseUrl}}/api/v1/Auth/Logout
 Authorization: Bearer <access-token-from-login>
 Content-Type: application/json
 

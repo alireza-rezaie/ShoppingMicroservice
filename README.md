@@ -4,7 +4,7 @@ A .NET 9 microservices sample containing Catalog, Basket, Discount, and Authenti
 
 ## Authentication
 
-The Authentication API uses ASP.NET Core Identity, SQL Server, JWT access tokens, and rotating refresh tokens. Its SQL Server database is persisted in the Docker named volume `auth_sql_data`.
+The Authentication API uses the same four-layer API / Application / Core / Infrustructure structure as the other services, with ASP.NET Core Identity, SQL Server, JWT access tokens, and rotating refresh tokens. Its SQL Server database is persisted in the Docker named volume `auth_sql_data`.
 
 Run the solution with Docker Compose:
 
@@ -20,10 +20,10 @@ Authentication SQL Server: `localhost,1433` (database: `ShoppingAuthDb`)
 
 | Method | Endpoint | Purpose |
 |---|---|---|
-| POST | `/api/auth/register` | Register a Customer and issue tokens |
-| POST | `/api/auth/login` | Sign in and issue tokens |
-| POST | `/api/auth/refresh` | Rotate a refresh token |
-| POST | `/api/auth/logout` | Revoke the supplied refresh token |
+| POST | `/api/v1/Auth/Register` | Register a Customer and issue tokens |
+| POST | `/api/v1/Auth/Login` | Sign in and issue tokens |
+| POST | `/api/v1/Auth/Refresh` | Rotate a refresh token |
+| POST | `/api/v1/Auth/Logout` | Revoke the supplied refresh token |
 
 Example registration body:
 
