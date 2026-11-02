@@ -16,7 +16,6 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "Authentication.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
-RUN mkdir -p /app/data && chown -R $APP_UID:$APP_UID /app/data
 USER $APP_UID
 WORKDIR /app
 COPY --from=publish /app/publish .
