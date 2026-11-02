@@ -35,6 +35,7 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen(c => c.SwaggerDoc("v1", new() { Title = "Authentication.Api", Version = "v1", Description = "Authentication API" }));
 
 var app = builder.Build();
