@@ -43,9 +43,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.Api", "Services\Di
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.Application", "Services\Discount\Discount.Application\Discount.Application.csproj", "{58FB14CF-F13B-4477-B300-2F9DAB929EF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.Infrustructure", "..\Discount.Infrustructure\Discount.Infrustructure.csproj", "{5D47A739-F8A7-4115-AADE-8CAB1433B488}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.Infrustructure", "Services\Discount\Discount.Infrustructure\Discount.Infrustructure.csproj", "{5D47A739-F8A7-4115-AADE-8CAB1433B488}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.Core", "..\Discount.Core\Discount.Core.csproj", "{11A65C6F-2CBA-471C-9F09-79CF919A871C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.Core", "Services\Discount\Discount.Core\Discount.Core.csproj", "{11A65C6F-2CBA-471C-9F09-79CF919A871C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
